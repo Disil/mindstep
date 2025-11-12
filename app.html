@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Daily Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Daily Planner SMA</h1>
+            <div class="date-display" id="dateDisplay"></div>
+        </header>
+
+        <main>
+            <!-- Jadwal Pelajaran -->
+            <section class="schedule-section">
+                <h2>📅 Jadwal Hari Ini</h2>
+                <div class="day-selector">
+                    <select id="daySelect">
+                        <option value="senin">Senin</option>
+                        <option value="selasa">Selasa</option>
+                        <option value="rabu">Rabu</option>
+                        <option value="kamis">Kamis</option>
+                        <option value="jumat">Jumat</option>
+                        <option value="sabtu">Sabtu</option>
+                    </select>
+                </div>
+                <div class="schedule-list" id="scheduleList"></div>
+                <button class="btn-add" onclick="addSchedule()">+ Tambah Jadwal</button>
+            </section>
+
+            <!-- Tugas/PR -->
+            <section class="tasks-section">
+                <h2>✏️ Tugas & PR</h2>
+                <div class="task-input">
+                    <input type="text" id="taskInput" placeholder="Tugas baru...">
+                    <input type="date" id="taskDeadline">
+                    <button onclick="addTask()">Tambah</button>
+                </div>
+                <div class="task-list" id="taskList"></div>
+            </section>
+
+            <!-- Catatan -->
+            <section class="notes-section">
+                <h2>📝 Catatan Cepat</h2>
+                <textarea id="noteArea" placeholder="Tulis catatan penting di sini..."></textarea>
+                <button onclick="saveNote()">💾 Simpan Catatan</button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal untuk tambah jadwal -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Tambah Jadwal Pelajaran</h3>
+            <input type="time" id="scheduleTime" placeholder="Waktu">
+            <input type="text" id="scheduleSubject" placeholder="Mata Pelajaran">
+            <input type="text" id="scheduleTeacher" placeholder="Guru (opsional)">
+            <button onclick="saveSchedule()">Simpan</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyAD0Ha2GZmEIiaHd4SRyoaUXK4CoAK_XJI",
+            authDomain: "mindstepipb.firebaseapp.com",
+            projectId: "mindstepipb",
+            storageBucket: "mindstepipb.firebasestorage.app",
+            messagingSenderId: "1072801772130",
+            appId: "1:1072801772130:web:a2ab2c37ebf091019fd73b",
+            measurementId: "G-MSYWD7XE98"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+</body>
+</html>
