@@ -72,6 +72,29 @@
                     Sesi selesai: <span id="sessionCount">0</span>
                 </div>
             </section>
+
+            <!-- Habit Tracker -->
+            <section class="habit-section">
+                <h2>✅ Habit Tracker</h2>
+                <div class="week-selector">
+                    <button class="btn-week" onclick="changeWeek(-1)">◀</button>
+                    <span id="weekDisplay">Minggu Ini</span>
+                    <button class="btn-week" onclick="changeWeek(1)">▶</button>
+                </div>
+                <div class="habit-grid">
+                    <div class="habit-header">
+                        <div class="habit-name">Habit</div>
+                        <div class="habit-day">S</div>
+                        <div class="habit-day">M</div>
+                        <div class="habit-day">T</div>
+                        <div class="habit-day">W</div>
+                        <div class="habit-day">T</div>
+                        <div class="habit-day">F</div>
+                        <div class="habit-day">S</div>
+                    </div>
+                    <div id="habitList"></div>
+                </div>
+            </section>
         </main>
     </div>
     <script src="script.js"></script>

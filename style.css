@@ -333,6 +333,131 @@ button:hover {
     color: #000;
 }
 
+/* Habit Tracker */
+.habit-section {
+    grid-column: 1 / -1;
+}
+
+.week-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+}
+
+.btn-week {
+    width: auto;
+    padding: 8px 15px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.btn-week:hover {
+    background: #5568d3;
+}
+
+#weekDisplay {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.habit-grid {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.habit-header {
+    display: grid;
+    grid-template-columns: 150px repeat(7, 1fr);
+    gap: 5px;
+    padding: 15px;
+    background: #667eea;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.habit-name {
+    text-align: left;
+}
+
+.habit-day {
+    font-size: 0.9rem;
+}
+
+.habit-row {
+    display: grid;
+    grid-template-columns: 150px repeat(7, 1fr);
+    gap: 5px;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: center;
+}
+
+.habit-row:last-child {
+    border-bottom: none;
+}
+
+.habit-label {
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.habit-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.habit-checkbox input[type="checkbox"] {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+.habit-checkbox input[type="checkbox"]:checked {
+    background: #667eea;
+}
+
+.habit-stats {
+    margin-top: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.habit-stat {
+    flex: 1;
+}
+
+.habit-stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.habit-stat-label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
@@ -345,5 +470,21 @@ button:hover {
     
     main {
         grid-template-columns: 1fr;
+    }
+    
+    .habit-header,
+    .habit-row {
+        grid-template-columns: 100px repeat(7, 1fr);
+        padding: 10px;
+        gap: 3px;
+    }
+    
+    .habit-label {
+        font-size: 0.85rem;
+    }
+    
+    .habit-checkbox input[type="checkbox"] {
+        width: 25px;
+        height: 25px;
     }
 }

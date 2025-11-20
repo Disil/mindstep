@@ -11,6 +11,19 @@ let schedules = JSON.parse(localStorage.getItem('schedules')) || {
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let notes = localStorage.getItem('notes') || '';
 
+// Habit Tracker
+const habitsList = [
+    { id: 'pomodoro', name: 'Pomodoro', icon: '🍅' },
+    { id: 'meditasi', name: 'Meditasi', icon: '🧘' },
+    { id: 'olahraga', name: 'Olahraga', icon: '💪' },
+    { id: 'journaling', name: 'Journaling', icon: '📔' },
+    { id: 'istirahat', name: 'Istirahat', icon: '😴' },
+    { id: 'membaca', name: 'Membaca', icon: '📚' }
+];
+
+let habits = JSON.parse(localStorage.getItem('habits')) || {};
+let currentWeekOffset = 0;
+
 // Pomodoro Timer
 let timerInterval = null;
 let timeLeft = 25 * 60; // 25 minutes in seconds
@@ -26,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadTasks();
     loadNotes();
     loadSessionCount();
+    loadHabits();
     
     // Auto-save notes
     document.getElementById('noteArea').addEventListener('input', debounce(saveNote, 1000));
@@ -314,4 +328,82 @@ function loadSessionCount() {
     if ('Notification' in window && Notification.permission === 'default') {
         Notification.requestPermission();
     }
+}
+
+// Habit Tracker Functions
+function getWeekDates(offset = 0) {
+    const today = new Date();
+    const currentDay = today.getDay(); // 0 = Sunday
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() - currentDay + (offset * 7));
+    
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(weekStart);
+        date.setDate(weekStart.getDate() + i);
+        dates.push(date.toISOString().split('T')[0]);
+    }
+    
+    return dates;
+}
+
+function getWeekDisplay(offset) {
+    if (offset === 0) return 'Minggu Ini';
+    if (offset === -1) return 'Minggu Lalu';
+    if (offset === 1) return 'Minggu Depan';
+    
+    const dates = getWeekDates(offset);
+    const start = new Date(dates[0]);
+    const end = new Date(dates[6]);
+    
+    return `${start.getDate()}/${start.getMonth() + 1} - ${end.getDate()}/${end.getMonth() + 1}`;
+}
+
+function loadHabits() {
+    const habitList = document.getElementById('habitList');
+    const weekDates = getWeekDates(currentWeekOffset);
+    
+    document.getElementById('weekDisplay').textContent = getWeekDisplay(currentWeekOffset);
+    
+    habitList.innerHTML = habitsList.map(habit => {
+        return `
+            <div class="habit-row">
+                <div class="habit-label">
+                    <span>${habit.icon}</span>
+                    <span>${habit.name}</span>
+                </div>
+                ${weekDates.map(date => `
+                    <div class="habit-checkbox">
+                        <input type="checkbox" 
+                               ${isHabitChecked(habit.id, date) ? 'checked' : ''}
+                               onchange="toggleHabit('${habit.id}', '${date}')"
+                               ${isFutureDate(date) ? 'disabled' : ''}>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }).join('');
+}
+
+function isHabitChecked(habitId, date) {
+    return habits[date] && habits[date][habitId];
+}
+
+function isFutureDate(date) {
+    const today = new Date().toISOString().split('T')[0];
+    return date > today;
+}
+
+function toggleHabit(habitId, date) {
+    if (!habits[date]) {
+        habits[date] = {};
+    }
+    
+    habits[date][habitId] = !habits[date][habitId];
+    localStorage.setItem('habits', JSON.stringify(habits));
+}
+
+function changeWeek(direction) {
+    currentWeekOffset += direction;
+    loadHabits();
 }
