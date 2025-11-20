@@ -48,6 +48,30 @@
                 <textarea id="noteArea" placeholder="Tulis catatan penting di sini..."></textarea>
                 <button onclick="saveNote()">💾 Simpan Catatan</button>
             </section>
+
+            <!-- Pomodoro Timer -->
+            <section class="pomodoro-section">
+                <h2>🍅 Pomodoro Timer</h2>
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                <div class="timer-controls">
+                    <button class="btn-timer" onclick="startTimer()">▶️ Mulai</button>
+                    <button class="btn-timer" onclick="pauseTimer()">⏸️ Pause</button>
+                    <button class="btn-timer" onclick="resetTimer()">🔄 Reset</button>
+                </div>
+                <div class="timer-settings">
+                    <label>
+                        <input type="radio" name="timerMode" value="25" checked onchange="changeMode(25)">
+                        Fokus (25 min)
+                    </label>
+                    <label>
+                        <input type="radio" name="timerMode" value="5" onchange="changeMode(5)">
+                        Istirahat (5 min)
+                    </label>
+                </div>
+                <div class="session-counter">
+                    Sesi selesai: <span id="sessionCount">0</span>
+                </div>
+            </section>
         </main>
     </div>
     <script src="script.js"></script>

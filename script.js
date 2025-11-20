@@ -11,6 +11,13 @@ let schedules = JSON.parse(localStorage.getItem('schedules')) || {
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let notes = localStorage.getItem('notes') || '';
 
+// Pomodoro Timer
+let timerInterval = null;
+let timeLeft = 25 * 60; // 25 minutes in seconds
+let isRunning = false;
+let currentMode = 25; // minutes
+let sessionCount = parseInt(localStorage.getItem('sessionCount')) || 0;
+
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
     updateDate();
@@ -18,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadSchedule();
     loadTasks();
     loadNotes();
+    loadSessionCount();
     
     // Auto-save notes
     document.getElementById('noteArea').addEventListener('input', debounce(saveNote, 1000));
@@ -223,5 +231,87 @@ window.onclick = function(event) {
     const modal = document.getElementById('scheduleModal');
     if (event.target === modal) {
         closeModal();
+    }
+}
+
+// Pomodoro Timer Functions
+function startTimer() {
+    if (isRunning) return;
+    
+    isRunning = true;
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+            timerComplete();
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    isRunning = false;
+    clearInterval(timerInterval);
+}
+
+function resetTimer() {
+    pauseTimer();
+    timeLeft = currentMode * 60;
+    updateTimerDisplay();
+}
+
+function changeMode(minutes) {
+    pauseTimer();
+    currentMode = minutes;
+    timeLeft = minutes * 60;
+    updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    document.getElementById('timerDisplay').textContent = display;
+}
+
+function timerComplete() {
+    pauseTimer();
+    
+    const isFocusMode = currentMode === 25;
+    
+    // Update session count if focus session completed
+    if (isFocusMode) {
+        sessionCount++;
+        localStorage.setItem('sessionCount', sessionCount);
+        document.getElementById('sessionCount').textContent = sessionCount;
+    }
+    
+    // Show browser notification
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('🍅 Pomodoro Timer Selesai!', {
+            body: isFocusMode ? '🎉 Sesi fokus selesai! Saatnya istirahat 5 menit.' : '✨ Istirahat selesai! Siap fokus 25 menit lagi?',
+            icon: '🍅',
+            requireInteraction: true
+        });
+    }
+    
+    // Show alert notification
+    alert(isFocusMode ? '🎉 Sesi fokus selesai!\n\nSaatnya istirahat 5 menit.' : '✨ Istirahat selesai!\n\nSiap fokus 25 menit lagi?');
+    
+    // Auto switch mode
+    const newMode = isFocusMode ? 5 : 25;
+    document.querySelector(`input[value="${newMode}"]`).checked = true;
+    changeMode(newMode);
+    
+    // Auto start next session
+    startTimer();
+}
+
+function loadSessionCount() {
+    document.getElementById('sessionCount').textContent = sessionCount;
+    
+    // Request notification permission
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
     }
 }
