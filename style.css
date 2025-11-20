@@ -460,31 +460,119 @@ button:hover {
 
 /* Responsive */
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
     .container {
         padding: 15px;
+        border-radius: 15px;
     }
     
     header h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+    }
+    
+    .date-display {
+        font-size: 0.95rem;
     }
     
     main {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
     
+    section {
+        padding: 15px;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+    
+    /* Jadwal Mobile */
+    .schedule-item {
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .btn-delete {
+        width: 100%;
+        margin-top: 5px;
+    }
+    
+    /* Tugas Mobile */
+    .task-input {
+        flex-direction: column;
+    }
+    
+    .task-input input,
+    .task-input button {
+        width: 100%;
+    }
+    
+    .task-item {
+        padding: 12px;
+    }
+    
+    /* Timer Mobile */
+    .timer-display {
+        font-size: 3rem;
+        padding: 20px;
+    }
+    
+    .timer-controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    /* Notes Mobile */
+    #noteArea {
+        min-height: 150px;
+        font-size: 0.95rem;
+    }
+    
+    /* Habit Tracker Mobile */
     .habit-header,
     .habit-row {
-        grid-template-columns: 100px repeat(7, 1fr);
-        padding: 10px;
-        gap: 3px;
-    }
-    
-    .habit-label {
+        grid-template-columns: 80px repeat(7, 1fr);
+        padding: 8px;
+        gap: 2px;
         font-size: 0.85rem;
     }
     
+    .habit-label {
+        font-size: 0.75rem;
+        gap: 4px;
+    }
+    
+    .habit-label span:first-child {
+        font-size: 0.9rem;
+    }
+    
+    .habit-day {
+        font-size: 0.75rem;
+    }
+    
     .habit-checkbox input[type="checkbox"] {
-        width: 25px;
-        height: 25px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .week-selector {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+    
+    #weekDisplay {
+        font-size: 0.95rem;
+    }
+    
+    .btn-week {
+        padding: 6px 12px;
+        font-size: 0.9rem;
     }
 }
